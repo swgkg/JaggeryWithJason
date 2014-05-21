@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form name="additemform" >
+     Employee Name: <input type="text" id="name"> Employee age: <input type="text" id="age">Employee nic: <input type="text" id="nic">  <input type="button" id ="addbtn"  value="Add Employee">
+    </form> 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/AjaxUtil.js"></script>
+	<script type="text/javascript">
+
+	$("#addbtn").click(function() {
+	
+	
+	  var name=$('#name').val();
+      var age=$('#age').val();
+      var nic=$('#nic').val();
+	  if(name == "" || age == "" || nic ==""){
+		alert("please fill the blank fields");
+		document.task.textboxmain.focus();
+		exit(0);
+
+	  }
+	      
+      AjaxUtil.makeRequest("POST", "/JaggerAppWithJson/employee/", "name="+name+"&age="+age+"&nic="+nic,
+        function (data) {
+                   alert(data);
+    		        var jsonObj = eval('(' + data + ')'); //JSON.parse(data);
+			        var outMsg = "<html><body><h2>Reply JSON Object: "+
+			        				jsonObj+"</h2><br /> <h2>Parsed Object</h2><h2>EMP:  "
+			        				+jsonObj.emp+"</h2><h2>Message:  "
+			        				+jsonObj.message+"</h2></body></html>";
+			        
+	      
+					document.write(outMsg);
+					exit(0);
+            });
+        $('#name').val("");
+        $('#age').val("");
+        $('#nic').val("");
+        $('#additemform').hide();
+        	 
+					
+	});
+</script>
+</body>
+</html>

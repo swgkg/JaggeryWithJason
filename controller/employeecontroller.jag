@@ -1,0 +1,41 @@
+<%
+include("../model/EmployeeStore.jag");
+response.contentType = 'text/javascript';
+
+var verb = request.getMethod();
+var nic = request.getParameter('nic');
+var name = request.getParameter('name');
+var age = request.getParameter('age');
+var log = new Log();
+var uri = request.getRequestURI();
+
+var callPath=uri.replace("/JaggerAppWithJson/employee","");
+
+if(uri != null) {
+    var uriMatcher = new URIMatcher(callPath);
+
+    if(uriMatcher.match("/{nic}/")) {
+        nic = uriMatcher.elements().nic;
+    }
+}
+
+log.info("-----Employee details-----------------------");
+log.info(nic);
+log.info(name);
+log.info(age);
+log.info("----------------------------");
+
+
+if(verb == "DELETE" && isbn != null) {
+    log.info("Executed Delete");
+    deleteEmp(bic);
+
+} else if(verb == "POST" && name != null && nic !=null && age !=null) {
+    log.info("Adding the employee");
+    addEmp(name,age,nic);
+    log.info("Added the employee");
+} else if(verb == "GET") {
+    log.info("Executed");
+    listEmp();
+}
+%>

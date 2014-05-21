@@ -1,0 +1,78 @@
+<%
+var emplist = [{
+        "name" : "Test",
+        "age" : "28",
+        "nic": "xxxxxxxxxx"
+    }, {
+        "name" : "Test",
+        "age" : "28",
+        "nic": "xxxxxxxxxx"
+    }, {
+        "name" : "Test",
+        "age" : "28",
+        "nic": "xxxxxxxxxx"
+    }, {
+        "name" : "Test",
+        "age" : "28",
+        "nic": "xxxxxxxxxx"
+    },
+    {
+        "name" : "Test",
+        "age" : "28",
+        "nic": "xxxxxxxxxx"
+    }
+    ];
+
+
+function addEmp(name,age,nic) {
+ 
+    var emps;
+  	if(session.get("emps")!=null){
+    	emps= session.get("emps").EMP;
+    }
+    
+    var emp= {
+        "name" : name,
+        "age" : age,
+        "nic": nic
+    };
+   emplist.push(emp);
+   session.put("emps",emplist);
+   session.put("emp",emp);
+   listEmp();
+}
+
+function listEmp() {
+ 	var emps= session.get("emps");
+	log.info("-----Employee details in list emp-----------------------");
+	log.info(emps);
+	log.info("----------------------------");
+       
+    var resp = {};
+	resp.emp = emps;
+	resp.message = 'List of employees';
+	
+	
+	log.info("Response:  " + stringify(resp));
+	print(stringify(resp));
+}
+
+function deleteEmp(nic) {
+    var emps= session.get("emps");
+    var index = -1;
+    for (var i = 0; i < emps.length; i++) {
+        if (emps[i].nic == nic) {
+            index=i;
+        }
+    }
+    if(index!=-1) {
+        emps.splice(index, 1);
+        session.put("emps",emps);
+    } else {
+        print({
+            "Infor" : "Sorry ..Record not found"
+        });
+    }
+}
+
+%>
